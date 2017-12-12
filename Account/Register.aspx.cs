@@ -13,7 +13,7 @@ public partial class Account_Register : Page
         IdentityResult result = manager.Create(user, Password.Text);
         if (result.Succeeded)
         {
-            var currentUser = manager.FindByName(user.UserName);
+            var currentUser = manager.FindById(user.Id);
             manager.AddToRole(currentUser.Id, "RegularUser");
 
             IdentityHelper.SignIn(manager, user, isPersistent: false);

@@ -1,11 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="New.aspx.cs" Inherits="Bookmarks_NewBookmark" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
-    <%--    <asp:LoginView ID="LoginView1" runat="server">
-        <AnonymousTemplate>
-            <p>Register to access this feature.</p>
-        </AnonymousTemplate>
-        <LoggedInTemplate>--%>
     <div class="form-horizontal">
         <h4>Create new Bookmark.</h4>
         <hr />
@@ -35,6 +30,12 @@
                     CssClass="text-danger" ErrorMessage="The bookmark description field is required." />
             </div>
         </div>
+        <asp:FileUpload ID="Image" runat="server"/>
+        <div class="form-inline">
+                <asp:TextBox runat="server" ID="Tag1" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="Tag2" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="Tag3" CssClass="form-control" />
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <asp:Button runat="server" OnClick="CreateBookmark_Click" Text="Create Bookmark" CssClass="btn btn-default" />
@@ -43,7 +44,5 @@
     </div>
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="text-danger"/>
     <asp:Label ID="Answer" runat="server"></asp:Label>
-    <%--        </LoggedInTemplate>
-    </asp:LoginView>--%>
 </asp:Content>
 

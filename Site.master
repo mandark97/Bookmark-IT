@@ -6,12 +6,12 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title>Bookmark It</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
@@ -46,23 +46,34 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Application name</a>
+                    <a class="navbar-brand" runat="server" href="~/">Bookmark It</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
-                        <li><a runat="server" href="~/About">About</a></li>
-                        <li><a runat="server" href="~/Contact">Contact</a></li>
+                        <li><a runat="server" href="~/Bookmarks/Index">Hot</a></li>
+                        <li><a runat="server" href="~/Bookmarks/Index?recent=true">Recent</a></li>
+                        <li><a runat="server" href="~/Bookmarks/Personal">Personal</a></li>
+                        <asp:LoginView runat="server">
+                            <RoleGroups>
+                                <asp:RoleGroup Roles="Admin">
+                                    <ContentTemplate>
+                                        <li><a runat="server" href="~/Account/Users">Users Management</a></li>
+                                    </ContentTemplate>
+                                </asp:RoleGroup>
+                            </RoleGroups>
+                        </asp:LoginView>
                     </ul>
+                    <asp:Literal ID="ErrorDisplay" runat="server"></asp:Literal>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
-                            <ul class="nav navbar-nav navbar-right">
+                            <ul class="nav navbar-nav navbar-right inline">
                                 <li><a runat="server" href="~/Account/Register">Register</a></li>
                                 <li><a runat="server" href="~/Account/Login">Log in</a></li>
                             </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
-                            <ul class="nav navbar-nav navbar-right">
+                            <ul class="nav navbar-nav navbar-right inline">
+
                                 <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.GetUserName()  %>!</a></li>
                                 <li>
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
@@ -70,7 +81,18 @@
                             </ul>
                         </LoggedInTemplate>
                     </asp:LoginView>
-                </div>
+
+                        <div class="navbar-form">
+
+                            <asp:TextBox ID="Search" runat="server" placeholder="Search" CssClass="form-control"></asp:TextBox>
+                            <div class="input-group-btn">
+
+                                <asp:LinkButton ID="SearchButton" runat="server" OnClick="SearchButton_Click" CssClass="btn btn-primary">
+                            <i class="glyphicon glyphicon-search"></i>
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
         <div class="container body-content">

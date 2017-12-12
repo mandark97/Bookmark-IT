@@ -73,4 +73,10 @@ public partial class SiteMaster : MasterPage
     {
         Context.GetOwinContext().Authentication.SignOut();
     }
+
+    protected void SearchButton_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("/Bookmarks/Index.aspx?q=" + Server.UrlEncode(Search.Text));
+
+    }
 }
