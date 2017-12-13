@@ -12,6 +12,12 @@ using System.Web.UI.WebControls;
 
 public partial class Bookmarks_Edit : System.Web.UI.Page
 {
+    public bool IsValidUri(string uri)
+    {
+        Uri validatedUri;
+        return Uri.TryCreate(uri, UriKind.RelativeOrAbsolute, out validatedUri);
+    }
+
     protected void CheckLogged()
     {
         if (User.Identity.GetUserId() == null)
@@ -53,6 +59,8 @@ public partial class Bookmarks_Edit : System.Web.UI.Page
                 }
                 catch (Exception ex)
                 {
+                    Answer.Visible = true;
+
                     Answer.Text = "Database update error" + ex.Message;
 
                 }
@@ -64,6 +72,8 @@ public partial class Bookmarks_Edit : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                Answer.Visible = true;
+
                 Answer.Text = ex.Message;
             }
         }
@@ -140,6 +150,8 @@ public partial class Bookmarks_Edit : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                Answer.Visible = true;
+
                 Answer.Text = "Database select error" + ex.Message;
 
             }
@@ -150,6 +162,7 @@ public partial class Bookmarks_Edit : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            Answer.Visible = true;
             Answer.Text = ex.Message;
         }
     }
@@ -204,7 +217,7 @@ public partial class Bookmarks_Edit : System.Web.UI.Page
             com.ExecuteNonQuery();
         }
 
-        Answer.Text = "Bookmark created";
+        Answer.Text = "Bookmark Updated";
         BookmarkName.Text = "";
         BookmarkUrl.Text = "";
         BookmarkDescription.Text = "";
@@ -229,5 +242,13 @@ public partial class Bookmarks_Edit : System.Web.UI.Page
         com.Parameters.AddWithValue("Id", id);
 
         com.ExecuteNonQuery();
+    }
+    protected void Unnamed_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        Uri validatedUri;
+        if (Uri.TryCreate(BookmarkUrl.Text, UriKind.Absolute, out validatedUri))
+            args.IsValid = true;
+        else
+            args.IsValid = false;
     }
 }

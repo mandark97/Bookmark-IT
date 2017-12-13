@@ -54,6 +54,13 @@
                         <li><a runat="server" href="~/Bookmarks/Index?recent=true">Recent</a></li>
                         <li><a runat="server" href="~/Bookmarks/Personal">Personal</a></li>
                         <asp:LoginView runat="server">
+                            <LoggedInTemplate>
+                                <li>
+                                    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Bookmarks/New"><i class="glyphicon glyphicon-star-empty"></i> Add new</asp:HyperLink>
+                                </li>
+                            </LoggedInTemplate>
+                        </asp:LoginView>
+                        <asp:LoginView runat="server">
                             <RoleGroups>
                                 <asp:RoleGroup Roles="Admin">
                                     <ContentTemplate>
@@ -82,27 +89,34 @@
                         </LoggedInTemplate>
                     </asp:LoginView>
 
-                        <div class="navbar-form">
+                    <div class="navbar-form">
 
-                            <asp:TextBox ID="Search" runat="server" placeholder="Search" CssClass="form-control"></asp:TextBox>
-                            <div class="input-group-btn">
+                        <asp:TextBox ID="Search" runat="server" placeholder="Search" CssClass="form-control"></asp:TextBox>
+                        <div class="input-group-btn">
 
-                                <asp:LinkButton ID="SearchButton" runat="server" OnClick="SearchButton_Click" CssClass="btn btn-primary">
+                            <asp:LinkButton ID="SearchButton" runat="server" OnClick="SearchButton_Click" CssClass="btn btn-primary">
                             <i class="glyphicon glyphicon-search"></i>
-                                </asp:LinkButton>
-                            </div>
+                            </asp:LinkButton>
                         </div>
                     </div>
+
+                </div>
             </div>
         </div>
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
-            <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
-            </footer>
         </div>
     </form>
+    <div id="footer" class="footer navbar-bottom bg-primary">
+        <div class="container">
+
+            <a href="~/About" class="bg-primary">
+                <p class="text-center"><strong>About</strong></p>
+            </a>
+            <p class="text-center">&copy; <%: DateTime.Now.Year %> - Bookmark It</p>
+        </div>
+    </div>
 </body>
 </html>

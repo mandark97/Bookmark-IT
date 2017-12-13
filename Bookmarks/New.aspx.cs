@@ -40,6 +40,7 @@ public partial class Bookmarks_NewBookmark : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                Answer.Visible = true;
                 Answer.Text = "Database insert error : " + ex.Message;
             }
             finally
@@ -57,7 +58,7 @@ public partial class Bookmarks_NewBookmark : System.Web.UI.Page
         string description = BookmarkDescription.Text;
         string userId = User.Identity.GetUserId();
         string filepath = "";
-        if(Image.HasFile)
+        if (Image.HasFile)
         {
             string fileName = Path.GetFileName(Image.PostedFile.FileName);
             Image.PostedFile.SaveAs(Server.MapPath("~/Images/") + fileName);
@@ -102,11 +103,21 @@ public partial class Bookmarks_NewBookmark : System.Web.UI.Page
             com.ExecuteNonQuery();
         }
 
+        Answer.Visible = true;
         Answer.Text = "Bookmark created";
         BookmarkName.Text = "";
         BookmarkUrl.Text = "";
         BookmarkDescription.Text = "";
         foreach (TextBox tag in tags)
             tag.Text = "";
+    }
+
+    protected void Unnamed_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        Uri validatedUri;
+        if (Uri.TryCreate(BookmarkUrl.Text, UriKind.Absolute, out validatedUri))
+            args.IsValid = true;
+        else
+            args.IsValid = false;
     }
 }
